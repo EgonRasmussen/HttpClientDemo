@@ -6,11 +6,11 @@ using HttpClientDemo.Models;
 
 namespace HttpClientDemo.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class DataStore : IDataStore<Item>
     {
         readonly List<Item> items;
 
-        public MockDataStore()
+        public DataStore()
         {
             items = new List<Item>()
             {
