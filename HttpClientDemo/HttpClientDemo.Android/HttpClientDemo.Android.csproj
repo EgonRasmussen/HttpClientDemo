@@ -88,11 +88,5 @@
     <AndroidResource Include="Resources\drawable\tab_about.png" />
     <AndroidResource Include="Resources\drawable\tab_feed.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HttpClientDemo\HttpClientDemo.csproj">
-      <Project>{F304B98F-BBAD-4206-BD76-07B1F76AB6E1}</Project>
-      <Name>HttpClientDemo</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
