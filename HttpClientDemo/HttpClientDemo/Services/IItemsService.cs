@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using HttpClientDemo.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HttpClientDemo.Services
 {
-    public interface IItemsService<T>
+    public interface IItemsService
     {
-        Task<IEnumerable<T>> GetItemsAsync();
-        Task<bool> AddItemAsync(T item);
-        Task<bool> UpdateItemAsync(T item);
+        Task<IEnumerable<Item>> GetItemsAsync();
+        Task<bool> AddItemAsync(Item item);
+        Task<bool> UpdateItemAsync(Item item);
         Task<bool> DeleteItemAsync(string id);
-        Task<T> GetItemAsync(string id);
+        Task<Item> GetItemAsync(string id);
         
     }
 }

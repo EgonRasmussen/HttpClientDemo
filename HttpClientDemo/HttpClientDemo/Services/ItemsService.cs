@@ -8,7 +8,7 @@ using TinyIoC;
 
 namespace HttpClientDemo.Services
 {
-    public class ItemsService : IItemsService<Item>
+    public class ItemsService : IItemsService
     {
         private readonly IGenericRepository _genericRepository;
         public ItemsService()

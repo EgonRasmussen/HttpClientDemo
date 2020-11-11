@@ -1,22 +1,18 @@
-﻿using System;
+﻿using HttpClientDemo.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-using Xamarin.Forms;
-
-using HttpClientDemo.Models;
-using HttpClientDemo.Services;
 using TinyIoC;
 
 namespace HttpClientDemo.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        protected readonly IItemsService<Item> _itemsService;
+        protected readonly IItemsService _itemsService;
         public BaseViewModel()
         {
-            _itemsService = TinyIoCContainer.Current.Resolve<IItemsService<Item>>();
+            _itemsService = TinyIoCContainer.Current.Resolve<IItemsService>();
         }
 
         bool isBusy = false;
