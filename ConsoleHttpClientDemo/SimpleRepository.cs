@@ -16,13 +16,13 @@ namespace ConsoleHttpClientDemo
 
         public async Task<List<Item>> GetItems()
         {
-            string itemJson = await _httpClient.GetStringAsync($"api/item");
+            string itemJson = await _httpClient.GetStringAsync($"api/items");
             return JsonConvert.DeserializeObject<List<Item>>(itemJson);
         }
 
         public async Task<Item> GetItemById(string id)
         {
-            var itemJson = await _httpClient.GetStringAsync($"api/item/{id}");
+            var itemJson = await _httpClient.GetStringAsync($"api/items/{id}");
             return JsonConvert.DeserializeObject<Item>(itemJson);
         }
 
@@ -30,7 +30,7 @@ namespace ConsoleHttpClientDemo
         {
             var itemJson = JsonConvert.SerializeObject(item);
             var content = new StringContent(itemJson, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await _httpClient.PostAsync("api/item", content);
+            HttpResponseMessage response = await _httpClient.PostAsync("api/items", content);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Something went wrong!");

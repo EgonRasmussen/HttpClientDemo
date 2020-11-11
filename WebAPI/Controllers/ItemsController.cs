@@ -9,11 +9,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemsController : ControllerBase
     {
         private readonly IDataStore<Item> _dataService;
 
-        public ItemController(IDataStore<Item> dataService)
+        public ItemsController(IDataStore<Item> dataService)
         {
             _dataService = dataService;
         }
