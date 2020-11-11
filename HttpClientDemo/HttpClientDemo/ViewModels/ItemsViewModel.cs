@@ -37,7 +37,7 @@ namespace HttpClientDemo.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await _itemsService.GetItemsAsync();
                 foreach (var item in items)
                 {
                     Items.Add(item);

@@ -7,12 +7,17 @@ using Xamarin.Forms;
 
 using HttpClientDemo.Models;
 using HttpClientDemo.Services;
+using TinyIoC;
 
 namespace HttpClientDemo.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        protected readonly IItemsService<Item> _itemsService;
+        public BaseViewModel()
+        {
+            _itemsService = TinyIoCContainer.Current.Resolve<IItemsService<Item>>();
+        }
 
         bool isBusy = false;
         public bool IsBusy

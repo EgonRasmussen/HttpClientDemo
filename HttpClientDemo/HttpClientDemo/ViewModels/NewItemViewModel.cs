@@ -56,7 +56,7 @@ namespace HttpClientDemo.ViewModels
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await _itemsService.AddItemAsync(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
