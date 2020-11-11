@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace GenericRepository.Exceptions
+namespace Repository.Exceptions
 {
     public class HttpRequestExceptionEx : HttpRequestException
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GenericRepository.Exceptions
+namespace Repository.Exceptions
 {
     public class ServiceAuthenticationException : Exception
     {

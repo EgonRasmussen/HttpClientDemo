@@ -1,11 +1,8 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using HttpClientDemo.Models;
 using HttpClientDemo.Services;
-using HttpClientDemo.Views;
-using TinyIoC;
-using HttpClientDemo.Models;
 using Repository;
+using TinyIoC;
+using Xamarin.Forms;
 
 namespace HttpClientDemo
 {
@@ -17,7 +14,7 @@ namespace HttpClientDemo
             InitializeComponent();
 
             var container = TinyIoCContainer.Current;
-            container.Register<IGenericRepository, Repository.GenericRepository>();
+            container.Register<IGenericRepository, GenericRepository>();
             container.Register<IItemsService<Item>, ItemsService>();
 
             MainPage = new AppShell();

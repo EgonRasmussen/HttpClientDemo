@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GenericRepository;
-using HttpClientDemo.Constants;
+﻿using HttpClientDemo.Constants;
 using HttpClientDemo.Models;
 using Repository;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using TinyIoC;
 
 namespace HttpClientDemo.Services
 {
     public class ItemsService : IItemsService<Item>
     {
-        readonly List<Item> items;
-
         private readonly IGenericRepository _genericRepository;
         public ItemsService()
         {
