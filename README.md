@@ -3,7 +3,7 @@
 ### HTTP
 
 Android tillader ikke længere at man tilgår http-ressourcer, men kræver TLS. Dette kan man imidlertid omgå ved at tilføje følgende attribut `android:usesCleartextTraffic="true"` til 
-application-noden i AndroidManifest.xml (som ligger i Properties folderen):
+`application`-noden i *AndroidManifest.xml* (som ligger i *Properties* folderen):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -21,8 +21,8 @@ application-noden i AndroidManifest.xml (som ligger i Properties folderen):
 
 ### HTTPS
 
-Android tillader ikke længere at man tilgår https-resoourcer, som ikke har et gyldigt certifikat. Og selv om man installerer sit developer-certificat, så er det ikke gyldigt. 
-Dette kan man imidlertid klare ved at tilføje en lille XML-fil netvork_security_config.xml til folderen Resources/values/xml:
+Android tillader ikke længere at man tilgår https-ressourcer, som ikke har et gyldigt certifikat. Og selv om man installerer sit developer-certificat, så er det ikke gyldigt. 
+Dette kan man imidlertid klare ved at tilføje en lille XML-fil kaldet `netvork_security_config.xml` til folderen `Resources/values/xml`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -57,7 +57,7 @@ Det er normalt ikke muligt for  en device/emulator at få adgang til den lokale d
 
 Heldigvis kan man nøjes med at installere en gratis extension til Visual Studio, som kaldes [Conveyor from Keyoti](https://conveyor.cloud/).
 
-I Visual Studio vælges EXTENSIONS | Manage Extensions og der søges efter Conveyor from Keyoti. Efter genstart af VS følger man [vejledningen](https://conveyor.cloud/Home/How_To_Install) og åbner for nogle porte i firewall. 
+I Visual Studio vælges *EXTENSIONS | Manage Extensions* og der søges efter *Conveyor from Keyoti*. Efter genstart af VS følger man [vejledningen](https://conveyor.cloud/Home/How_To_Install) og åbner for nogle porte i firewall. 
 
 Kig på denne guide for at benytte IIS Express: [How to setup a remote connection to IIS Express](https://conveyor.cloud/Help/Setup_remote_connection_Visual_Studio_IIS_Express)
 
