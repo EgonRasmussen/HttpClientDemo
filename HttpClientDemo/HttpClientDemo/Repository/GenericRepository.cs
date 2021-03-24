@@ -10,15 +10,23 @@ namespace Repository
 {
     public class GenericRepository : IGenericRepository
     {
+        private HttpClient httpClient;
+
+        public GenericRepository()
+        {
+            httpClient = new HttpClient();
+        }
+
         #region GET
         public async Task<T> GetAsync<T>(string uri, string authToken = "")
         {
             try
             {
-                HttpClient httpClient = CreateHttpClient(authToken);
+                ConfigureHttpClient(authToken);
+
                 string jsonResult = string.Empty;
 
-                var responseMessage = await httpClient.GetAsync(uri);
+                HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
@@ -35,7 +43,7 @@ namespace Repository
 
                 throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -47,7 +55,7 @@ namespace Repository
         {
             try
             {
-                HttpClient httpClient = CreateHttpClient(authToken);
+                ConfigureHttpClient(authToken);
 
                 var content = new StringContent(JsonConvert.SerializeObject(data));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -82,7 +90,7 @@ namespace Repository
         {
             try
             {
-                HttpClient httpClient = CreateHttpClient(authToken);
+                ConfigureHttpClient(authToken);
 
                 var content = new StringContent(JsonConvert.SerializeObject(data));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -119,7 +127,7 @@ namespace Repository
         {
             try
             {
-                HttpClient httpClient = CreateHttpClient(authToken);
+                ConfigureHttpClient(authToken);
 
                 var content = new StringContent(JsonConvert.SerializeObject(data));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -157,7 +165,7 @@ namespace Repository
         {
             try
             {
-                HttpClient httpClient = CreateHttpClient(authToken);
+                ConfigureHttpClient(authToken);
                 await httpClient.DeleteAsync(uri);
             }
             catch (Exception e)
@@ -168,16 +176,18 @@ namespace Repository
         #endregion
 
         #region HELPER
-        private HttpClient CreateHttpClient(string authToken)
+        private void ConfigureHttpClient(string authToken)
         {
-            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             if (!string.IsNullOrEmpty(authToken))
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
             }
-            return httpClient;
+            else
+            {
+                httpClient.DefaultRequestHeaders.Authorization = null;
+            }
         }
         #endregion
     }
