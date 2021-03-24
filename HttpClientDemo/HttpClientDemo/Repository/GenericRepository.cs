@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Polly;
 using Repository.Exceptions;
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,7 +28,20 @@ namespace Repository
 
                 string jsonResult = string.Empty;
 
-                HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+                //HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);   // Erstattes af de næste linjer
+
+                HttpResponseMessage responseMessage = await Policy
+                    .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.Unauthorized)
+                    .WaitAndRetryAsync
+                    (
+                        retryCount: 5,
+                        sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (ex, time) =>
+                        {
+                            Debug.WriteLine("******************** Something went wrong, retrying....*******");
+                        }
+                    )
+                    .ExecuteAsync(async () => await httpClient.GetAsync(uri));
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
