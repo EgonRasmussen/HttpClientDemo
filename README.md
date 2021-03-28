@@ -1,6 +1,6 @@
 # HttpClient Demo
 
-## 1.ConsoleHttpClient_WebAPI
+## 2.Refit 
 
 Et simpelt WebApi, der benytter klassen Item.
 
@@ -14,12 +14,8 @@ PUT: api/item       : update af item
 DELETE: api/item/3  : slet item=3
 ```
 
-Klienten består af et Console app.
+Klienten består af et Console app. som benytter [Refit](https://github.com/reactiveui/refit) library.
 
 &nbsp;
 
-## 2.GenericRepository
 
-&nbsp;
-
-## 3. NetworkResiliencePolly

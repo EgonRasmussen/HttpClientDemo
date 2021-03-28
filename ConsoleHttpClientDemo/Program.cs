@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Refit;
+using System;
 
 namespace ConsoleHttpClientDemo
 {
@@ -6,11 +7,11 @@ namespace ConsoleHttpClientDemo
     {
         static async System.Threading.Tasks.Task Main(string[] args)
         {
-            SimpleRepository repos = new SimpleRepository();
+            // Her oprettes et objekt af IBackendService-typen
+            var repos = RestService.For<IBackendService>("https://localhost:5001");
 
             Item newItem = new Item { Text = "New Item", Description = "My New Item" };
             await repos.AddItem(newItem);
-
 
             var items = await repos.GetItems();
             foreach (Item item in items)
