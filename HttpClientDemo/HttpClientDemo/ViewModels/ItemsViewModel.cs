@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
-
 using HttpClientDemo.Models;
 using HttpClientDemo.Views;
 using System.Collections.Generic;
-using Akavache;
+using System.Reactive.Linq;   // IMPORTANT - this makes await work!
 using Xamarin.Essentials;
+using Akavache;
 
 namespace HttpClientDemo.ViewModels
 {

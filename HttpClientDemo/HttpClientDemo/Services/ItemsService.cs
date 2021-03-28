@@ -23,8 +23,7 @@ namespace HttpClientDemo.Services
             {
                 Path = ApiConstants.ItemsEndpoint
             };
-            //await Task.Delay(3000);
-            Thread.Sleep(3000);
+            Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelse
             return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
         }
 
