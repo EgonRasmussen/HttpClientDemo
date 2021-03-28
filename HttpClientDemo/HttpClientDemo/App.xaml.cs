@@ -2,6 +2,7 @@
 using Repository;
 using TinyIoC;
 using Xamarin.Forms;
+using Akavache;
 
 namespace HttpClientDemo
 {
@@ -15,6 +16,8 @@ namespace HttpClientDemo
             var container = TinyIoCContainer.Current;
             container.Register<IGenericRepository, GenericRepository>();
             container.Register<IItemsService, ItemsService>();
+
+            BlobCache.ApplicationName = "MyDemoAkavache";   // Added
 
             MainPage = new AppShell();
         }

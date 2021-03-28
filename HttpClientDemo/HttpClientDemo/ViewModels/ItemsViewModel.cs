@@ -7,6 +7,9 @@ using Xamarin.Forms;
 
 using HttpClientDemo.Models;
 using HttpClientDemo.Views;
+using System.Collections.Generic;
+using Akavache;
+using Xamarin.Essentials;
 
 namespace HttpClientDemo.ViewModels
 {
@@ -23,25 +26,30 @@ namespace HttpClientDemo.ViewModels
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(() => ExecuteLoadItemsCommand());
 
             ItemTapped = new Command<Item>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
 
-        async Task ExecuteLoadItemsCommand()
+        void ExecuteLoadItemsCommand()
         {
             IsBusy = true;
 
             try
             {
                 Items.Clear();
-                var items = await _itemsService.GetItemsAsync();
-                foreach (var item in items)
+                GetItems().Subscribe((items) =>
                 {
-                    Items.Add(item);
-                }
+                    Items.Clear();
+
+                    foreach (var item in items)
+                    {
+                        Items.Add(item);
+                    }
+                });
+                
             }
             catch (Exception ex)
             {
@@ -51,6 +59,21 @@ namespace HttpClientDemo.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        public IObservable<IEnumerable<Item>> GetItems()
+        {
+            return BlobCache.LocalMachine.GetAndFetchLatest("items",
+            async () => await _itemsService.GetItemsAsync(), (offset) =>
+            {
+                // return a boolean to indicate the cache is invalidated. When no network is available or cache is not expired, 
+                // return false to just retrieve data from the cache
+                if (Connectivity.NetworkAccess == NetworkAccess.None)
+                {
+                    return false;
+                }
+                return (DateTimeOffset.Now - offset).Minutes > 1;
+            });
         }
 
         public void OnAppearing()

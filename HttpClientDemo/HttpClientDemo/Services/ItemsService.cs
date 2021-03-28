@@ -3,6 +3,7 @@ using HttpClientDemo.Models;
 using Repository;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using TinyIoC;
 
@@ -22,6 +23,8 @@ namespace HttpClientDemo.Services
             {
                 Path = ApiConstants.ItemsEndpoint
             };
+            //await Task.Delay(3000);
+            Thread.Sleep(3000);
             return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
         }
 
