@@ -62,15 +62,17 @@ namespace HttpClientDemo.ViewModels
         public IObservable<IEnumerable<Item>> GetItems()
         {
             return BlobCache.LocalMachine.GetAndFetchLatest("items",
-            async () => await _itemsService.GetItemsAsync(), (offset) =>
+            async () => await _itemsService.GetItemsAsync(), 
+            (offset) =>
             {
-                // return a boolean to indicate the cache is invalidated. When no network is available or cache is not expired, 
-                // return false to just retrieve data from the cache
+                // return true; // to indicate the cache is invalidated. When no network is available or cache is not expired, 
+                // return false; // to just retrieve data from the cache
+
                 if (Connectivity.NetworkAccess == NetworkAccess.None)
                 {
                     return false;
                 }
-                return (DateTimeOffset.Now - offset).Minutes > 1;
+                return (DateTimeOffset.Now - offset).Seconds > 20;
             });
         }
 

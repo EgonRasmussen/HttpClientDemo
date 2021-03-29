@@ -1,4 +1,5 @@
-﻿using HttpClientDemo.Services;
+﻿using Akavache;
+using HttpClientDemo.Services;
 using Repository;
 using TinyIoC;
 using Xamarin.Forms;
@@ -27,6 +28,7 @@ namespace HttpClientDemo
 
         protected override void OnSleep()
         {
+            BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume()

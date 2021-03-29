@@ -43,7 +43,7 @@ namespace Repository
 
                 throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
