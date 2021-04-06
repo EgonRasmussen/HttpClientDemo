@@ -1,8 +1,9 @@
 ## Tilføjelser til Android-projektet i forhold til netværksprotokollen
+Nu skal vi arbejde på Mobilen og det giver nogle netværks- og sikkerhedsmæssige udfordringer:
 
 ### HTTP
 
-Android tillader ikke længere at man tilgår http-ressourcer, men kræver TLS. Dette kan man imidlertid omgå ved at tilføje følgende attribut `android:usesCleartextTraffic="true"` til 
+Android tillader ikke at man tilgår http-ressourcer uden kryptering, men kræver TLS. Dette kan man imidlertid omgå ved at tilføje følgende attribut `android:usesCleartextTraffic="true"` til 
 `application`-noden i *AndroidManifest.xml* (som ligger i *Properties* folderen):
 
 ```xml
