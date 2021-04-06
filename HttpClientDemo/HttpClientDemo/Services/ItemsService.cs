@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using TinyIoC;
+using MonkeyCache.SQLite;
+using Xamarin.Essentials;
 
 namespace HttpClientDemo.Services
 {
@@ -23,8 +25,22 @@ namespace HttpClientDemo.Services
             {
                 Path = ApiConstants.ItemsEndpoint
             };
+
+            string url = builder.Path;
+
+            if (Connectivity.NetworkAccess == NetworkAccess.None)
+            {
+                return Barrel.Current.Get<IEnumerable<Item>>(key: url);
+            }
+            if (!Barrel.Current.IsExpired(key: url))
+            {
+                return Barrel.Current.Get<IEnumerable<Item>>(key: url);
+            }
             Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelte
-            return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
+            var items = await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
+            //Saves the cache and pass it a timespan for expiration
+            Barrel.Current.Add(key: url, data: items, expireIn: TimeSpan.FromSeconds(20));
+            return items;
         }
 
         public async Task<Item> GetItemAsync(string id)

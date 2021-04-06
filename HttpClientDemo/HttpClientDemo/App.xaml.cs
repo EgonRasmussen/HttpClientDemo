@@ -12,6 +12,8 @@ namespace HttpClientDemo
         {
             InitializeComponent();
 
+            MonkeyCache.SQLite.Barrel.ApplicationId = "MyApp";
+
             var container = TinyIoCContainer.Current;
             container.Register<IGenericRepository, GenericRepository>();
             container.Register<IItemsService, ItemsService>();

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using HttpClientDemo.Models;
+using HttpClientDemo.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
-
-using HttpClientDemo.Models;
-using HttpClientDemo.Views;
 
 namespace HttpClientDemo.ViewModels
 {
@@ -28,6 +27,15 @@ namespace HttpClientDemo.ViewModels
             ItemTapped = new Command<Item>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+
+            IsConnected = Connectivity.NetworkAccess != NetworkAccess.Internet;     //
+
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;   //
+        }
+
+        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)    //
+        {
+            IsConnected = e.NetworkAccess != NetworkAccess.Internet;
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -81,6 +89,11 @@ namespace HttpClientDemo.ViewModels
 
             // This will push the ItemDetailPage onto the navigation stack
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+        }
+
+        public void Dispose()       //
+        {
+            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
         }
     }
 }
