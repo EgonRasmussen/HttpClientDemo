@@ -13,11 +13,12 @@ namespace HttpClientDemo
         {
             InitializeComponent();
 
+            //Akavache.Registrations.Start("AkavacheExperiment");
+            Akavache.BlobCache.ApplicationName = "YourAppName";
+
             var container = TinyIoCContainer.Current;
             container.Register<IGenericRepository, GenericRepository>();
             container.Register<IItemsService, ItemsService>();
-
-            Akavache.Registrations.Start("AkavacheExperiment");
 
             MainPage = new AppShell();
         }
