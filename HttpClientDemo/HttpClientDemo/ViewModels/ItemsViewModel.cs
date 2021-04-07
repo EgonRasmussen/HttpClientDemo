@@ -65,14 +65,14 @@ namespace HttpClientDemo.ViewModels
             async () => await _itemsService.GetItemsAsync(), 
             (offset) =>
             {
-                // return true; // to indicate the cache is invalidated. When no network is available or cache is not expired, 
-                // return false; // to just retrieve data from the cache
+                // return true; // To indicate the cache is expired and new data should follow.  
+                // return false; // When no network is available or cache is not expired, then get data from Cache
 
                 if (Connectivity.NetworkAccess == NetworkAccess.None)
                 {
                     return false;
                 }
-                return (DateTimeOffset.Now - offset).Seconds > 20;
+                return (DateTimeOffset.Now - offset).Seconds > 10;
             });
         }
 

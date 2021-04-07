@@ -24,6 +24,7 @@ namespace HttpClientDemo.Services
                 Path = ApiConstants.ItemsEndpoint
             };
             //Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelse
+
             return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
         }
 

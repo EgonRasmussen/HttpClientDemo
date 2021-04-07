@@ -12,8 +12,7 @@ namespace HttpClientDemo
         public App()
         {
             InitializeComponent();
-
-            //Akavache.Registrations.Start("AkavacheExperiment");
+;
             Akavache.BlobCache.ApplicationName = "YourAppName";
 
             var container = TinyIoCContainer.Current;
