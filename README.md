@@ -57,9 +57,7 @@ Der skal desuden linkes til filen i AndroidManifest.xml:
 
 ## Få adgang til WebApi hosted lokalt vha. Conveyor by Keyoti
 
-Det er normalt ikke muligt for  en device/emulator at få adgang til den lokale developer webserver IIS Express eller Kestrel. Eller rettere, det kræver en ændring i konfigurationen, som vi helst er fri for.
-
-Heldigvis kan man nøjes med at installere en gratis extension til Visual Studio, som kaldes [Conveyor from Keyoti](https://conveyor.cloud/).
+En anden mulighed at er at installere en gratis extension til Visual Studio, som kaldes [Conveyor from Keyoti](https://conveyor.cloud/).
 
 I Visual Studio vælges *EXTENSIONS | Manage Extensions* og der søges efter *Conveyor from Keyoti*. Efter genstart af VS følger man [vejledningen](https://conveyor.cloud/Home/How_To_Install) og åbner for nogle porte i firewall. 
 
