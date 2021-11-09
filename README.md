@@ -15,7 +15,8 @@ Android tillader ikke at man tilgår http-ressourcer uden kryptering, men kræver 
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.httpclientdemo">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" 
+        android:versionName="1.0" package="com.companyname.httpclientdemo">
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
       <application android:label="HttpClientDemo.Android" 
           android:theme="@style/MainTheme" 
