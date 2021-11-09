@@ -11,10 +11,14 @@ namespace Repository
     public class GenericRepository : IGenericRepository
     {
         private HttpClient httpClient;
+        HttpClientHandler httpClientHandler = new HttpClientHandler();
 
         public GenericRepository()
         {
-            httpClient = new HttpClient();
+#if DEBUG
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
+#endif
+            httpClient = new HttpClient(httpClientHandler);
         }
 
         #region GET
