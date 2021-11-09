@@ -43,7 +43,8 @@ public class GenericRepository : IGenericRepository
     public GenericRepository()
     {
 #if DEBUG
-        httpClientHandler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
+        httpClientHandler.ServerCertificateCustomValidationCallback = 
+            (message, certificate, chain, sslPolicyErrors) => true;
 #endif
         httpClient = new HttpClient(httpClientHandler);
     }
