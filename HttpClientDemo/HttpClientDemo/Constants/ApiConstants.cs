@@ -2,7 +2,7 @@
 {
     public class ApiConstants
     {
-        public const string BaseApiUrl = "https://192.168.1.23:45455/";
+        public const string BaseApiUrl = "https://10.0.2.2:5001/";
         public const string ItemsEndpoint = "api/items";
     }
 }
