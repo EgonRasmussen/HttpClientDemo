@@ -36,7 +36,7 @@ public interface IBackendService
 ```
 Refit-library opretter automatisk en passende Repository-klasser, der matcher interfacet.
 
-Når man ønsker at benytte klassen, er den eneste forskel at man skal oprette et objekt af RestService klassen og give dens .For-metode det ønskede interface med som parameter.
+Når man ønsker at benytte klassen, er den eneste forskel at man skal oprette et objekt af `RestService` klassen og give dens .For-metode det ønskede interface med som parameter.
 Resten er helt som med et manuelt oprettet repository:
 
 ```csharp
