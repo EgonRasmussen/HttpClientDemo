@@ -1,4 +1,4 @@
-# 5.Akavache_Cache
+# 4.Akavache_Cache
 
 Test: Sæt Breakpoint f.eks. i ItemsService.cs og se at indenfor 20 sekunders refresh laves der ikke en request efter nye data.
 
