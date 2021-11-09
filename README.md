@@ -1,5 +1,12 @@
-## Tilføjelser til Android-projektet i forhold til netværksprotokollen
-Nu skal vi arbejde på Mobilen og det giver nogle netværks- og sikkerhedsmæssige udfordringer:
+## Debug af Android-projektet i forhold til netværksprotokollen
+Nu skal vi arbejde på Android emulatoren og det giver nogle netværks- og sikkerhedsmæssige udfordringer:
+
+### localhost
+
+WebApi'et kører på adressen `http://localhost:5001`. Imidlertid benytter Android Emulatoren et helt andet net, og derfor skal man benytte adressen `https:10.0.2.2:5001`
+for at ramme WebApi og localhost.
+
+&nbsp;
 
 ### HTTP
 
@@ -22,34 +29,28 @@ Android tillader ikke at man tilgår http-ressourcer uden kryptering, men kræver 
 
 ### HTTPS
 
-Android tillader ikke længere at man tilgår https-ressourcer, som ikke har et gyldigt certifikat. Og selv om man installerer sit developer-certificat, så er det ikke gyldigt. 
-Dette kan man imidlertid klare ved at tilføje en lille XML-fil kaldet `netvork_security_config.xml` til folderen `Resources/values/xml`:
+Android tillader som udgangspunkt ikke at man tilgår https-ressourcer, som ikke har et gyldigt certifikat. Og selv om man installerer sit developer-certificat, så er det ikke gyldigt. 
+I Debug mode kan man lave en Bypass Certificate Validation ved at justere oprettelsen af HttpClient objektet på følgende måde:
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <base-config cleartextTrafficPermitted="false">
-    <trust-anchors>
-      <certificates src="system" />
-      <certificates src="user"/>
-    </trust-anchors>
-  </base-config>
-</network-security-config>
+```csharp
+public class GenericRepository : IGenericRepository
+{
+    private HttpClient httpClient;
+
+    HttpClientHandler httpClientHandler = new HttpClientHandler();
+
+    public GenericRepository()
+    {
+#if DEBUG
+        httpClientHandler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
+#endif
+        httpClient = new HttpClient(httpClientHandler);
+    }
+..... øvrigt kode udeladt
 ```
 
 Der skal desuden linkes til filen i AndroidManifest.xml:
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.httpclientdemo">
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
-      <application android:label="HttpClientDemo.Android" 
-          android:theme="@style/MainTheme" 
-          android:networkSecurityConfig="@xml/network_security_config">
-       </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-</manifest>
-```
 &nbsp;
 
 ## Få adgang til WebApi hosted lokalt vha. Conveyor by Keyoti
