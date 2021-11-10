@@ -1,8 +1,10 @@
-﻿namespace HttpClientDemo.Constants
+﻿using Xamarin.Forms;
+
+namespace HttpClientDemo.Constants
 {
-    public class ApiConstants
+    public static class ApiConstants
     {
-        public const string BaseApiUrl = "https://10.0.2.2:5001/";
+        public static string BaseApiUrl = Device.RuntimePlatform == Device.Android ? "https://10.0.2.2:5001/" : "https://localhost:5001/";
         public const string ItemsEndpoint = "api/items";
     }
 }
