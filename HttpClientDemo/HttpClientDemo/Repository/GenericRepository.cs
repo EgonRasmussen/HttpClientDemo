@@ -34,6 +34,7 @@ namespace Repository
 
                 //HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);   // Erstattes af de næste linjer
 
+                #region POLLY
                 HttpResponseMessage responseMessage = await Policy
                     .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.Unauthorized)
                     .WaitAndRetryAsync
@@ -46,6 +47,7 @@ namespace Repository
                         }
                     )
                     .ExecuteAsync(async () => await httpClient.GetAsync(uri));
+                #endregion
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
