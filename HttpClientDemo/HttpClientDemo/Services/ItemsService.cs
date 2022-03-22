@@ -1,12 +1,11 @@
 ﻿using HttpClientDemo.Constants;
 using HttpClientDemo.Models;
+using MonkeyCache.SQLite;
 using Repository;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using TinyIoC;
-using MonkeyCache.SQLite;
 using Xamarin.Essentials;
 
 namespace HttpClientDemo.Services
@@ -36,10 +35,10 @@ namespace HttpClientDemo.Services
             {
                 return Barrel.Current.Get<IEnumerable<Item>>(key: url);
             }
-            Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelte
+            // Network is active and time is expired, so we will ask for new data
             var items = await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
             //Saves the cache and pass it a timespan for expiration
-            Barrel.Current.Add(key: url, data: items, expireIn: TimeSpan.FromSeconds(20));
+            Barrel.Current.Add(key: url, data: items, expireIn: TimeSpan.FromSeconds(10));
             return items;
         }
 

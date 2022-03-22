@@ -4,13 +4,13 @@ Benytter [jamesmontemagno/monkey-cache](https://github.com/jamesmontemagno/monke
 
 Tilføj NuGet pakken **MonkeyCache.SQLite** til alle Xamarin-projekterne.
 
-Tilføj følgende i App.xaml.cs lige efter InitializeComponent():
+Tilføj følgende i App.xaml.cs lige efter `InitializeComponent()`:
 
 `MonkeyCache.SQLite.Barrel.ApplicationId = "MyApp";`
 
 I Service-klassen laves forskellige test, som hvis de opfyldes vil returnere data fra Cachen:
 - Mangler der en aktiv netværksforbindelse?
-- Er tiden for expireIn ikke gået endnu?
+- Er tiden for *expired* ikke gået endnu?
 
 Hvis ingen af disse test resulterer i at Cachen læses, bliver Cachen opdateret med friske data.
 Her ses et eksempel fra `GetItemsAsync()`:
