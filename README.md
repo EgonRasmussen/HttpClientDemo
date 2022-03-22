@@ -42,6 +42,6 @@ public async Task<IEnumerable<Item>> GetItemsAsync()
 ```
 
 Demo: Sæt breakpoints i ItemService-klassen ved de to betingelser for læsning af Cachen, samt for ny-indlæsning.
-Bemærk at det kun fungerer 100% på en fysisk device!
+Bemærk at Airplane mode kun virker på en fysisk device!
 
 &nbsp;
