@@ -3,97 +3,92 @@ using HttpClientDemo.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace HttpClientDemo.ViewModels
+namespace HttpClientDemo.ViewModels;
+
+public class ItemsViewModel : BaseViewModel
 {
-    public class ItemsViewModel : BaseViewModel
+    public ItemsViewModel()
     {
-        private Item _selectedItem;
+        Title = "Browse";
+        Items = new ObservableCollection<Item>();
 
-        public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        IsConnected = Connectivity.NetworkAccess != NetworkAccess.Internet;     //
 
-        public ItemsViewModel()
+        Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;   //
+    }
+
+    private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)    //
+    {
+        IsConnected = e.NetworkAccess != NetworkAccess.Internet;
+    }
+
+    public ObservableCollection<Item> Items { get; }
+
+    private Item _selectedItem;
+    public Item SelectedItem
+    {
+        get => _selectedItem;
+        set => SetProperty(ref _selectedItem, value);
+    }
+
+
+    private Command loadItemsCommand;
+    public ICommand LoadItemsCommand => loadItemsCommand ??= new Command(ExecuteLoadItemsCommand);
+    async void ExecuteLoadItemsCommand()
+    {
+        IsBusy = true;
+
+        try
         {
-            Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            ItemTapped = new Command<Item>(OnItemSelected);
-
-            AddItemCommand = new Command(OnAddItem);
-
-            IsConnected = Connectivity.NetworkAccess != NetworkAccess.Internet;     //
-
-            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;   //
-        }
-
-        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)    //
-        {
-            IsConnected = e.NetworkAccess != NetworkAccess.Internet;
-        }
-
-        async Task ExecuteLoadItemsCommand()
-        {
-            IsBusy = true;
-
-            try
+            Items.Clear();
+            var items = await _itemsService.GetItemsAsync();
+            foreach (var item in items)
             {
-                Items.Clear();
-                var items = await _itemsService.GetItemsAsync();
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
+                Items.Add(item);
             }
         }
-
-        public void OnAppearing()
+        catch (Exception ex)
         {
-            IsBusy = true;
-            SelectedItem = null;
+            Debug.WriteLine($"********** Error: {ex}*******");
         }
-
-        public Item SelectedItem
+        finally
         {
-            get => _selectedItem;
-            set
+            Debug.WriteLine("********* Load Items ********");
+            IsBusy = false;
+        }
+    }
+
+    private Command _itemTappedCommand;
+    public ICommand ItemTappedCommand => _itemTappedCommand ??= new Command<Item>
+        (
+            execute: async (item) =>
             {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
+                if (item == null)
+                    return;
+
+                // This will push the ItemDetailPage onto the navigation stack
+                await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
             }
-        }
+        );
 
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
+    private Command _addItemCommand;
+    public ICommand AddItemCommand => _addItemCommand ??= new Command
+    (
+        execute: async () => await Shell.Current.GoToAsync(nameof(NewItemPage))
+    );
 
-        async void OnItemSelected(Item item)
-        {
-            if (item == null)
-                return;
+    public void OnAppearing()
+    {
+        IsBusy = true;
+        SelectedItem = null;
+    }
 
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
-        }
-
-        public void Dispose()       //
-        {
-            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
-        }
+    public void Dispose()       //
+    {
+        Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
     }
 }
