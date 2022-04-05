@@ -11,7 +11,7 @@ for at ramme WebApi og localhost.
 ### HTTPS
 
 Android tillader som udgangspunkt ikke at man tilgår https-ressourcer, som ikke har et gyldigt certifikat. Og selv om man installerer sit developer-certificat, så er det ikke gyldigt. 
-I Debug mode kan man lave en *Bypass Certificate Validation* ved at justere oprettelsen af HttpClient objektet på følgende måde:
+I Debug mode kan man lave et *dirty fix*, også kaldet en *Bypass Certificate Validation* ved at justere oprettelsen af HttpClient objektet på følgende måde:
 
 ```csharp
 public class GenericRepository : IGenericRepository
