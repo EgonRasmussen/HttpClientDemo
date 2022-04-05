@@ -1,33 +1,22 @@
-﻿using System;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HttpClientDemo.ViewModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
-using HttpClientDemo.Models;
-using HttpClientDemo.Views;
-using HttpClientDemo.ViewModels;
+namespace HttpClientDemo.Views;
 
-namespace HttpClientDemo.Views
+public partial class ItemsPage : ContentPage
 {
-    public partial class ItemsPage : ContentPage
+    ItemsViewModel _viewModel;
+
+    public ItemsPage()
     {
-        ItemsViewModel _viewModel;
+        InitializeComponent();
 
-        public ItemsPage()
-        {
-            InitializeComponent();
+        BindingContext = _viewModel = new ItemsViewModel();
+    }
 
-            BindingContext = _viewModel = new ItemsViewModel();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            _viewModel.OnAppearing();
-        }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.OnAppearing();
     }
 }

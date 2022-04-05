@@ -6,62 +6,61 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TinyIoC;
 
-namespace HttpClientDemo.Services
+namespace HttpClientDemo.Services;
+
+public class ItemsService : IItemsService
 {
-    public class ItemsService : IItemsService
+    private readonly IGenericRepository _genericRepository;
+    public ItemsService()
     {
-        private readonly IGenericRepository _genericRepository;
-        public ItemsService()
-        {
-            _genericRepository = TinyIoCContainer.Current.Resolve<IGenericRepository>();
-        }
+        _genericRepository = TinyIoCContainer.Current.Resolve<IGenericRepository>();
+    }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync()
+    public async Task<IEnumerable<Item>> GetItemsAsync()
+    {
+        UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = ApiConstants.ItemsEndpoint
-            };
-            return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
-        }
+            Path = ApiConstants.ItemsEndpoint
+        };
+        return await _genericRepository.GetAsync<IEnumerable<Item>>(builder.ToString());
+    }
 
-        public async Task<Item> GetItemAsync(string id)
+    public async Task<Item> GetItemAsync(string id)
+    {
+        UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = $"{ApiConstants.ItemsEndpoint}/{id}"
-            };
-            return await _genericRepository.GetAsync<Item>(builder.ToString());
-        }
+            Path = $"{ApiConstants.ItemsEndpoint}/{id}"
+        };
+        return await _genericRepository.GetAsync<Item>(builder.ToString());
+    }
 
-        public async Task<bool> AddItemAsync(Item item)
+    public async Task<bool> AddItemAsync(Item item)
+    {
+        UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = ApiConstants.ItemsEndpoint
-            };
-            await _genericRepository.PostAsync(builder.ToString(), item);
-            return true;
-        }
+            Path = ApiConstants.ItemsEndpoint
+        };
+        await _genericRepository.PostAsync(builder.ToString(), item);
+        return true;
+    }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+    public async Task<bool> UpdateItemAsync(Item item)
+    {
+        UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = $"{ApiConstants.ItemsEndpoint}/{item.Id}"
-            };
-            await _genericRepository.PutAsync(builder.ToString(), item);
-            return true;
-        }
+            Path = $"{ApiConstants.ItemsEndpoint}/{item.Id}"
+        };
+        await _genericRepository.PutAsync(builder.ToString(), item);
+        return true;
+    }
 
-        public async Task<bool> DeleteItemAsync(string id)
+    public async Task<bool> DeleteItemAsync(string id)
+    {
+        UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = $"{ApiConstants.ItemsEndpoint}/{id}"
-            };
-            await _genericRepository.DeleteAsync(builder.ToString());
-            return true;
-        }
+            Path = $"{ApiConstants.ItemsEndpoint}/{id}"
+        };
+        await _genericRepository.DeleteAsync(builder.ToString());
+        return true;
     }
 }

@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using HttpClientDemo.Models;
+﻿using HttpClientDemo.Models;
 using HttpClientDemo.ViewModels;
+using Xamarin.Forms;
 
-namespace HttpClientDemo.Views
+namespace HttpClientDemo.Views;
+
+public partial class NewItemPage : ContentPage
 {
-    public partial class NewItemPage : ContentPage
-    {
-        public Item Item { get; set; }
+    public Item Item { get; set; }
 
-        public NewItemPage()
-        {
-            InitializeComponent();
-            BindingContext = new NewItemViewModel();
-        }
+    public NewItemPage()
+    {
+        InitializeComponent();
+        BindingContext = new NewItemViewModel();
     }
 }

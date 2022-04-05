@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace Repository.Exceptions
+namespace Repository.Exceptions;
+
+public class ServiceAuthenticationException : Exception
 {
-    public class ServiceAuthenticationException : Exception
+    public string Content { get; set; }
+    public ServiceAuthenticationException(string content)
     {
-        public string Content { get; set; }
-        public ServiceAuthenticationException(string content)
-        {
-            Content = content;
-        }
+        Content = content;
     }
 }

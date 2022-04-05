@@ -1,15 +1,13 @@
-﻿using System.ComponentModel;
+﻿using HttpClientDemo.ViewModels;
 using Xamarin.Forms;
-using HttpClientDemo.ViewModels;
 
-namespace HttpClientDemo.Views
+namespace HttpClientDemo.Views;
+
+public partial class ItemDetailPage : ContentPage
 {
-    public partial class ItemDetailPage : ContentPage
+    public ItemDetailPage()
     {
-        public ItemDetailPage()
-        {
-            InitializeComponent();
-            BindingContext = new ItemDetailViewModel();
-        }
+        InitializeComponent();
+        BindingContext = new ItemDetailViewModel();
     }
 }

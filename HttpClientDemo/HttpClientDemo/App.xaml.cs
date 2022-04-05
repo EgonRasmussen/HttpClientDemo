@@ -3,32 +3,31 @@ using Repository;
 using TinyIoC;
 using Xamarin.Forms;
 
-namespace HttpClientDemo
+namespace HttpClientDemo;
+
+public partial class App : Application
 {
-    public partial class App : Application
+
+    public App()
     {
+        InitializeComponent();
 
-        public App()
-        {
-            InitializeComponent();
+        var container = TinyIoCContainer.Current;
+        container.Register<IGenericRepository, GenericRepository>();
+        container.Register<IItemsService, ItemsService>();
 
-            var container = TinyIoCContainer.Current;
-            container.Register<IGenericRepository, GenericRepository>();
-            container.Register<IItemsService, ItemsService>();
+        MainPage = new AppShell();
+    }
 
-            MainPage = new AppShell();
-        }
+    protected override void OnStart()
+    {
+    }
 
-        protected override void OnStart()
-        {
-        }
+    protected override void OnSleep()
+    {
+    }
 
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
+    protected override void OnResume()
+    {
     }
 }
