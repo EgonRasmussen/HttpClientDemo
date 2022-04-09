@@ -36,10 +36,14 @@ public class ItemsViewModel : BaseViewModel
         {
             Items.Clear();
             var items = await _itemsService.GetItemsAsync();
-            foreach (var item in items)
+
+            if (items is not null)
             {
-                Items.Add(item);
-            }
+                foreach (var item in items)
+                {
+                    Items.Add(item);
+                }
+            }        
         }
         catch (Exception ex)
         {
@@ -47,7 +51,6 @@ public class ItemsViewModel : BaseViewModel
         }
         finally
         {
-            Debug.WriteLine("********* Load Items ********");
             IsBusy = false;
         }
     }

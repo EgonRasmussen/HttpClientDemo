@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HttpClientDemo.Policies;
+using Newtonsoft.Json;
 using Polly;
 using Repository.Exceptions;
 using System;
@@ -13,7 +14,7 @@ namespace Repository;
 public class GenericRepository : IGenericRepository
 {
     private HttpClient httpClient;
-    HttpClientHandler httpClientHandler = new HttpClientHandler();
+    HttpClientHandler httpClientHandler = new();
 
     public GenericRepository()
     {
@@ -36,30 +37,36 @@ public class GenericRepository : IGenericRepository
 
             #region POLLY
             HttpResponseMessage responseMessage = await Policy
-                .HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.Unauthorized)
-                .WaitAndRetryAsync
-                (
-                    retryCount: 5,
-                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                    onRetry: (ex, time) =>
-                    {
-                        Debug.WriteLine("******************** Something went wrong, retrying....*******");
-                    }
-                )
+                .HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                .RetryAsync(10)
+                //.WaitAndRetryAsync(retryCount: 5, retryAttempt => TimeSpan.FromSeconds(3))
+                //.WaitAndRetryAsync(retryCount: 5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                //.WaitAndRetryAsync
+                //(
+                //    retryCount: 5,
+                //    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                //    onRetry: (ex, time) =>
+                //    {
+                //        Debug.WriteLine($"--> TimeSpan: {time.TotalSeconds}");
+                //    }
+                //)
+
+            //HttpResponseMessage responseMessage = await RetryPolicy.GetRetryPolicy()
+
                 .ExecuteAsync(async () => await httpClient.GetAsync(uri));
+
             #endregion
 
             if (responseMessage.IsSuccessStatusCode)
             {
-                jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Debug.WriteLine("--> Response is a SUCCESS");
+                jsonResult = await responseMessage.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<T>(jsonResult);
                 return json;
             }
-
-            if (responseMessage.StatusCode == HttpStatusCode.Forbidden ||
-                responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            else
             {
-                throw new ServiceAuthenticationException(jsonResult);
+                Debug.WriteLine("--> Response is a FAILURE");
             }
 
             throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
